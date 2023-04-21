@@ -46,8 +46,9 @@ function Main(props){
   //********************/
 
   return (
+
     <main id="main">
-    
+   
       <section className="profile">
   
         <button className="profile__avatar-button" onClick={props.onEditAvatar} type="button" aria-label="кнопка изменение аватара профиля" >
@@ -74,15 +75,30 @@ function Main(props){
         
       </section>
 
-      <PopupWithForm 
-        popapProfile = {props.popapProfile}
-        popapAvatar = {props.popapAvatar}
-        popapPlace = {props.popapPlace}
-        onClose = {props.onClose}
-      />
+      <PopupWithForm onClose = {props.onClose} name='profile'  title='Редактировать профиль' isOpen = {props.popapProfile}>
+        <input className="popup__input" id="popup_name-profile" type="text" value="Жак-Ив Кусто" name="popup_name" minlength={2} maxlength={40} required placeholder=""/>
+        <span className="popup__input-error" id="popup_name-profile-error"></span>
+        <input className="popup__input" id="popup_work-profile" type="text" value="Исследователь океана" minlength={2} maxlength={200} name="popup_work" required placeholder=""/>
+        <span className="popup__input-error" id="popup_work-profile-error"></span>
+        <button className="popup__button hover-batton" id="popup_button-profile" type="submit">Сохранить</button>
+      </PopupWithForm>
+
+      <PopupWithForm onClose = {props.onClose} name='mesto' title='Новое место' isOpen = {props.popapPlace}>
+        <input className="popup__input" id="popup__name-place" type="text" name="popup_name" minlength={2} maxlength={30} required placeholder="Название"/>
+        <span className="popup__input-error" id="popup__name-place-error"></span>
+        <input className="popup__input" id="popup__link-place" type="url" name="popup_link" required  placeholder="Ссылка на картинку"/>
+        <span className="popup__input-error" id="popup__link-place-error"></span>
+        <button className="popup__button hover-batton" id="popup_button-place" type="submit">Сохранить</button>
+      </PopupWithForm>
+
+      <PopupWithForm onClose = {props.onClose} name='avatar' title='Обновить аватар' isOpen = {props.popapAvatar}>
+        <input className="popup__input" id="popup__link-avatar" type="url" name="popup_link" required  placeholder="Ссылка на картинку"/>
+        <span className="popup__input-error" id="popup__link-avatar-error"></span>
+        <button className="popup__button hover-batton" id="popup_button-avatar" type="submit">Сохранить</button>
+      </PopupWithForm>
 
       <ImagePopup card = {props.card} onClose = {props.onClose}/>
-    
+
     </main>
   );
 }

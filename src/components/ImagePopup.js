@@ -1,8 +1,4 @@
 function ImagePopup(props){
-
-  console.log(props);
-
-
   return (
 
     <section className= {!props.card.link ? ("popup") : ("popup popup_active")} id="popup_img" aria-label="карточка просмотра фотографии">

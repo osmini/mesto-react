@@ -1,14 +1,21 @@
-import PopupForm from './PopupForm';
 
 function PopupWithForm (props){
 
   return (
-  <>
-    <PopupForm id='1' name='profile'  title='Редактировать профиль' isOpen = {props.popapProfile} onClose = {props.onClose} />
-    <PopupForm id='2' name='mesto' title='Новое место' isOpen = {props.popapPlace} onClose = {props.onClose} />
-    <PopupForm id='3' name='avatar' title='Обновить аватар' isOpen = {props.popapAvatar} onClose = {props.onClose} />
+
+  <section className= {!props.isOpen ? ("popup") : ("popup popup_active")}  id={`popup_${props.name}`} aria-label="карточка редактирования профиля">
     
-  </>
+    <div className="popup__eddit-form">
+      <button className="popup__close-button animation-hover" onClick={props.onClose} id={`popup_${props.name}-close`} type="button" aria-label="кнопка закрыть попап"></button>
+      <h2 className="popup__title">{props.title}</h2>
+      <form className="popup__form" id={`popup_form-${props.name}`} name={`popup_${props.name}`} novalidate >
+
+        {props.children}
+
+      </form>
+    </div>
+
+  </section>
 
   );
 }

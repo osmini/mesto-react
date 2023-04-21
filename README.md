@@ -7,4 +7,4 @@
 * JS
 * React
 
-* [Ссылка на готовый проект](https://osmini.github.io/mesto/)
+* [Ссылка на готовый проект](https://osmini.github.io/mesto-react/)

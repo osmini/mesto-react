@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -13,15 +12,15 @@ function App() {
   const [selectedCard, setSelectedCard] = useState([]);
 
   function handleEditProfileClick(){
-    setleEditProfileClick(!isEditProfilePopupOpen);
+    setleEditProfileClick(true);
   }
 
   function handleEditAvatarClick(){
-    setEditAvatarClick(!isEditAvatarPopupOpen);
+    setEditAvatarClick(true);
   }
 
   function handleAddPlaceClick(){
-    setAddPlaceClick(!isAddPlacePopupOpen);
+    setAddPlaceClick(true);
   }
 
   function handleCardClick (selectedCard){
@@ -31,42 +30,31 @@ function App() {
 
   // закрытие попапа
   function closeAllPopups(){
-
-    if(isEditProfilePopupOpen) {
-      setleEditProfileClick(!isEditProfilePopupOpen);
-    }
-    if(isEditAvatarPopupOpen){ 
-      setEditAvatarClick(!isEditAvatarPopupOpen);
-    }
-    if(isAddPlacePopupOpen){
-      setAddPlaceClick(!isAddPlacePopupOpen);
-    }
+    setleEditProfileClick(false);
+    setEditAvatarClick(false);
+    setAddPlaceClick(false);
     setSelectedCard([]);
   }
 
   return (
-    <html lang="ru">
 
-      <body className="body">
+  <>
         
-        <Header />
-        <Main 
-          onEditProfile = {() => handleEditProfileClick()}
-          onEditAvatar = {() => handleEditAvatarClick()} 
-          onAddPlace = {() => handleAddPlaceClick()}  
-          onCardClick = {handleCardClick}
-          popapProfile = {isEditProfilePopupOpen}
-          popapAvatar = {isEditAvatarPopupOpen}
-          popapPlace = {isAddPlacePopupOpen}
-          card = {selectedCard}
-          onClose = {() => closeAllPopups()}
-        />
-        <Footer />
+    <Header />
+    <Main 
+      onEditProfile = {() => handleEditProfileClick()}
+      onEditAvatar = {() => handleEditAvatarClick()} 
+      onAddPlace = {() => handleAddPlaceClick()}  
+      onCardClick = {handleCardClick}
+      popapProfile = {isEditProfilePopupOpen}
+      popapAvatar = {isEditAvatarPopupOpen}
+      popapPlace = {isAddPlacePopupOpen}
+      card = {selectedCard}
+      onClose = {() => closeAllPopups()}
+    />
+    <Footer />
         
-        <script type="module" src="./pages/index.js"></script>
-        
-      </body>
-    </html>
+  </>
   );
 }
 
