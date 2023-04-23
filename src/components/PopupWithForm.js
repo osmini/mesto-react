@@ -1,17 +1,18 @@
 
-function PopupWithForm (props){
+function PopupWithForm ({isOpen, onClose, name, title, button, children}){
 
   return (
 
-  <section className= {!props.isOpen ? ("popup") : ("popup popup_active")}  id={`popup_${props.name}`} aria-label="карточка редактирования профиля">
+  <section className= {!isOpen ? ("popup") : ("popup popup_active")}  id={`popup_${name}`} ariaLabel="карточка редактирования профиля">
     
     <div className="popup__eddit-form">
-      <button className="popup__close-button animation-hover" onClick={props.onClose} id={`popup_${props.name}-close`} type="button" aria-label="кнопка закрыть попап"></button>
-      <h2 className="popup__title">{props.title}</h2>
-      <form className="popup__form" id={`popup_form-${props.name}`} name={`popup_${props.name}`} novalidate >
+      <button className="popup__close-button animation-hover" onClick={onClose} id={`popup_${name}-close`} type="button" ariaLabel="кнопка закрыть попап"></button>
+      <h2 className="popup__title">{title}</h2>
+      <form className="popup__form" id={`popup_form-${name}`} name={`popup_${name}`} >
 
-        {props.children}
+        {children}
 
+        <button className="popup__button hover-batton" id="popup_button-profile" type="submit"> {button}</button>
       </form>
     </div>
 
