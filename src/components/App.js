@@ -53,11 +53,16 @@ function App() {
     
     <Footer />
 
-    <PopupWithForm onClose = {() => closeAllPopups()} name='profile'  title='Редактировать профиль' isOpen = {isEditProfilePopupOpen} button = 'Сохранить'>
-      <input className="popup__input" id="popup_name-profile" type="text" value="Жак-Ив Кусто" name="popup_name" minLength={2} maxLength={40} required placeholder=""/>
-      <span className="popup__input-error" id="popup_name-profile-error"></span>
-      <input className="popup__input" id="popup_work-profile" type="text" value="Исследователь океана" minLength={2} maxLength={200} name="popup_work" required placeholder=""/>
-      <span className="popup__input-error" id="popup_work-profile-error"></span>
+    <PopupWithForm 
+      onClose = {() => closeAllPopups()} 
+      name='profile'  
+      title='Редактировать профиль' 
+      isOpen = {isEditProfilePopupOpen} 
+      button = 'Сохранить'>
+        <input className="popup__input" id="popup_name-profile" type="text" value="Жак-Ив Кусто" name="popup_name" minLength={2} maxLength={40} required placeholder=""/>
+        <span className="popup__input-error" id="popup_name-profile-error"></span>
+        <input className="popup__input" id="popup_work-profile" type="text" value="Исследователь океана" minLength={2} maxLength={200} name="popup_work" required placeholder=""/>
+        <span className="popup__input-error" id="popup_work-profile-error"></span>
     </PopupWithForm>
 
     <PopupWithForm onClose = {() => closeAllPopups()} name='mesto' title='Новое место' isOpen = {isAddPlacePopupOpen} button = 'Сохранить'>

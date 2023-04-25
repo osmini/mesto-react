@@ -5,7 +5,7 @@ import Api from '../utils/Api';
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }){
 
 
-  const [profile, setProfile] = useState([]);  //информация о пользователи
+  const [profile, setProfile] = useState({});  //информация о пользователи
   const [cards, setCards] = useState([]); //карточки места
 
   useEffect(()=>{

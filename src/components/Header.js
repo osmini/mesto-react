@@ -8,8 +8,6 @@ function Header(){
         <img className="header__logo" src={logo} alt="логотип Mesto"/>
       </header>
 
-      <main>
-      </main>
     </>
   );
 }
