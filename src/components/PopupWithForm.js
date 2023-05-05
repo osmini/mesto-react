@@ -1,14 +1,14 @@
 
-function PopupWithForm ({isOpen, onClose, name, title, button, children}){
+function PopupWithForm ({isOpen, onClose, name, title, button, children, onSubmit}){
 
   return (
 
-  <section className= {!isOpen ? ("popup") : ("popup popup_active")}  id={`popup_${name}`} ariaLabel="карточка редактирования профиля">
+  <section className= {!isOpen ? ("popup") : ("popup popup_active")}  id={`popup_${name}`} aria-label="карточка редактирования профиля">
     
     <div className="popup__eddit-form">
-      <button className="popup__close-button animation-hover" onClick={onClose} id={`popup_${name}-close`} type="button" ariaLabel="кнопка закрыть попап"></button>
+      <button className="popup__close-button animation-hover" onClick={onClose} id={`popup_${name}-close`} type="button" aria-label="кнопка закрыть попап"></button>
       <h2 className="popup__title">{title}</h2>
-      <form className="popup__form" id={`popup_form-${name}`} name={`popup_${name}`} >
+      <form className="popup__form" id={`popup_form-${name}`} name={`popup_${name}`} onSubmit={onSubmit}>
 
         {children}
 

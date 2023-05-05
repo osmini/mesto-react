@@ -1,44 +1,14 @@
-import {useEffect, useState} from 'react';
+import {useContext} from 'react';
 import Card  from './Card';
-import Api from '../utils/Api';
 
-function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }){
+// Импортируем объект контекста
+import CurrentUserContext from './../contexts/CurrentUserContext';
 
 
-  const [profile, setProfile] = useState({});  //информация о пользователи
-  const [cards, setCards] = useState([]); //карточки места
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, cards }){
 
-  useEffect(()=>{
-    Api.getInfoUserForServer()
-      .then((res) => {
-        const resultProfile = {
-          userName: res.name,
-          userDescription: res.about,
-          userAvatar: res.avatar
-        };
-        setProfile(resultProfile);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }, []);
-
-  useEffect(()=>{
-    Api.getCardsForServer()
-      .then((res) => {
-        const resultCards = res.map((item) =>({
-          likes: item.likes.length,
-          name: item.name,
-          link: item.link,
-          id: item._id
-        }));
-        setCards(resultCards);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }, []);
-
+  // Подписываемся на контекст TranslationContext
+  const currentUser = useContext(CurrentUserContext);
 
   return (
 
@@ -46,27 +16,29 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick }){
   
       <section className="profile">
   
-        <button className="profile__avatar-button" onClick={onEditAvatar} type="button" ariaLabel="кнопка изменение аватара профиля" >
-          <img className="profile__avatar" src={profile.userAvatar} alt="Аватар автора"/>
+        <button className="profile__avatar-button" onClick={onEditAvatar} type="button" aria-label="кнопка изменение аватара профиля" >
+          <img className="profile__avatar" src={currentUser.avatar} alt="Аватар автора"/>
         </button>
   
         <div className="profile-info">
-          <h1 className="profile-info__title">{profile.userName}</h1>
-          <button className="profile-info__button-edit animation-hover" onClick={onEditProfile} type="button" ariaLabel="кнопка изменение информации профиля" ></button>
-          <p className="profile-info__subtitle">{profile.userDescription}</p>
+          <h1 className="profile-info__title">{currentUser.name}</h1>
+          <button className="profile-info__button-edit animation-hover" onClick={onEditProfile} type="button" aria-label="кнопка изменение информации профиля" ></button>
+          <p className="profile-info__subtitle">{currentUser.about}</p>
         </div>
     
-        <button className="profile__button-add animation-hover" onClick={onAddPlace} type="button" ariaLabel="кнопка добавления места"></button>
+        <button className="profile__button-add animation-hover" onClick={onAddPlace} type="button" aria-label="кнопка добавления места"></button>
       </section>
     
-      <section className="plases" ariaLabel="Карточки мест">
+      <section className="plases" aria-label="Карточки мест">
         
         {cards.map((card) =>
           <Card 
-            key = {card.id}
+            key = {card._id}
             card={card} 
             onCardClick = {onCardClick}
-            />
+            onCardLike = {onCardLike}
+            onCardDelete = {onCardDelete}
+          />
         )}
         
       </section>

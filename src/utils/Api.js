@@ -28,6 +28,25 @@ class Api {
     })
   };
 
+  // изменить данные о профиле с сервера и загрузить на страницу сайта
+  patchInfoUserForServer(date){
+
+    return fetch(`${this._zapros}/${this._identifikator}/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: date.name,
+        about: date.about
+      })
+    })
+    .then(res => {
+      return this._checkResponse(res);
+    })
+  }
+
   // получить карточки с сервера
   getCardsForServer(){
     
@@ -40,6 +59,50 @@ class Api {
         return this._checkResponse(res);
       })
   };
+
+  // удаление карточки
+  deleteCardForServer(cardId){
+    
+    return fetch(`${this._zapros}/${this._identifikator}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res => {
+      return this._checkResponse(res);
+    })
+  } 
+
+  //поставить лайк
+  putLikeForServer(cardId){
+    
+    return fetch(`${this._zapros}/${this._identifikator}/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res => {
+      return this._checkResponse(res);
+    })
+  } 
+
+  //убрать лайк
+  deleteLikeForServer(cardId){
+  
+    return fetch(`${this._zapros}/${this._identifikator}/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res => {
+      return this._checkResponse(res);
+    })
+  } 
+
+
 }
 
 const token = 'c564ddc3-f58f-47cc-aac8-027be5fd7e89';

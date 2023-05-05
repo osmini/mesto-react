@@ -1,22 +1,59 @@
+import {useContext} from 'react';
+
+// Импортируем объект контекста
+import CurrentUserContext from './../contexts/CurrentUserContext';
+
 
 // компонент принимат props
 function Card(props){
 
-  // функция которая выполняется в компоненте
+  // деструкторизация 
+  const {id, name, likes, link, owner} = props.card;
+
+
+
+  // Подписываемся на контекст TranslationContext  {isOwn && 
+  const currentUser = useContext(CurrentUserContext);
+
+  // определяем какие карточки наши для отображения кнопки удалить
+  const isOwn = owner._id === currentUser._id;
+  // Создаём переменную, для отображения кнопки удалить карточку
+  const cardDellButtonClassName = ( 
+    `plases-card__del animation-hover ${!isOwn && 'plases-card__del_opasiti'}` 
+  );
+
+  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  const isLiked = likes.some(i => i._id === currentUser._id);
+  // Создаём переменную, для отображения класса кнопки лайков
+  const cardLikeButtonClassName = ( 
+    `plases-card__like-button hover-like ${isLiked && 'plases-card__like_active'}` 
+  );
+
+  // функция открытия карточки место
   function handleClick() {
     props.onCardClick(props.card);
   }  
 
+  // функция обработки лайка
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }  
+
+  // функция удаления карточки
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
+  }  
+
   // возвращаем разметку jsx 
   return (
-    <article key={props.card.id} className="plases-card" ariaLabel="места России">
-      <img className="plases-card__img" onClick={handleClick} src={props.card.link} alt={props.card.name}/>
-      <button className="plases-card__del animation-hover " type="button" ariaLabel="кнопка удалить"></button>
+    <article key={id} className="plases-card" aria-label="места России">
+      <img className="plases-card__img" onClick={handleClick} src={link} alt={name}/>
+      <button  className={cardDellButtonClassName} onClick={handleDeleteClick} type="button" aria-label="кнопка удалить" ></button>
       <div className="plases-card__card-title">
-        <h2 className="plases-card__title">{props.card.name}</h2>
+        <h2 className="plases-card__title">{name}</h2>
         <div className="plases-card__like">
-          <button className="plases-card__like-button hover-like" type="button" ariaLabel="кнопка лайк"></button>
-          <div className="plases-card__like-count">{props.card.likes}</div>
+          <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button" aria-label="кнопка лайк"></button>
+          <div className="plases-card__like-count">{likes.length}</div>
         </div>
       </div>
     </article>
