@@ -3,8 +3,9 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup  from './ImagePopup';
-import PopupWithForm  from './PopupWithForm';
 import EditProfilePopup  from './EditProfilePopup';
+import EditAvatarPopup  from './EditAvatarPopup';
+import AddPlacePopup   from './AddPlacePopup ';
 import Api from '../utils/Api';
 
 // Импортируем объект контекста
@@ -92,6 +93,19 @@ function App() {
     }
   }
 
+  // добавить карточку
+  function handleAddPlaceSubmit(card) {
+
+    Api.postCardsForServer(card)
+    .then((newCard) => {
+      setCards([newCard, ...cards]); 
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.error(err);
+    });  
+  }
+
   // удалить карточку
   function handleCardDelete(card) {
 
@@ -107,10 +121,21 @@ function App() {
   // обновить данные о пользователе
   function handleUpdateUser(date) {
 
-    //console.log(date);
     Api.patchInfoUserForServer(date)
     .then((user) => {
       setCurrentUser(user);
+      closeAllPopups();
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  // изменить аватар
+  function handleUpdateAvatar(date){
+
+    Api.patchAvatarForServer(date)
+    .then((avatar) => {
+      setCurrentUser(avatar);
       closeAllPopups();
     }).catch((err) => {
       console.error(err);
@@ -133,20 +158,9 @@ function App() {
         cards = {cards}
       />
 
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser ={handleUpdateUser}/>
-
-      <PopupWithForm onClose = {() => closeAllPopups()} name='mesto' title='Новое место' isOpen = {isAddPlacePopupOpen} button = 'Сохранить'>
-          <input className="popup__input" id="popup__name-place" type="text" name="popup_name" minLength={2} maxLength={30} required placeholder="Название"/>
-          <span className="popup__input-error" id="popup__name-place-error"></span>
-          <input className="popup__input" id="popup__link-place" type="url" name="popup_link" required  placeholder="Ссылка на картинку"/>
-          <span className="popup__input-error" id="popup__link-place-error"></span>
-      </PopupWithForm>
-
-      <PopupWithForm onClose = {() => closeAllPopups()} name='avatar' title='Обновить аватар' isOpen = {isEditAvatarPopupOpen} button = 'Сохранить'>
-        <input className="popup__input" id="popup__link-avatar" type="url" name="popup_link" required  placeholder="Ссылка на картинку"/>
-        <span className="popup__input-error" id="popup__link-avatar-error"></span>
-      </PopupWithForm>
-
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+      <AddPlacePopup  isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
       <ImagePopup card = {selectedCard} onClose = {() => closeAllPopups()}/> 
       
       <Footer />  

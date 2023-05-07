@@ -47,6 +47,24 @@ class Api {
     })
   }
 
+  // изменить аватар
+  patchAvatarForServer(avatar){
+
+    return fetch(`${this._zapros}/${this._identifikator}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: avatar.avatar
+      })
+    })
+    .then(res => {
+      return this._checkResponse(res);
+    })
+  }
+
   // получить карточки с сервера
   getCardsForServer(){
     
@@ -59,6 +77,25 @@ class Api {
         return this._checkResponse(res);
       })
   };
+
+  // добавить новую карточку на сервер
+  postCardsForServer(newCardDate){
+  
+    return fetch(`${this._zapros}/${this._identifikator}/cards`, {
+      method: 'POST',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newCardDate.name,
+        link: newCardDate.link
+      })
+    })
+    .then(res => {
+      return this._checkResponse(res);
+    })
+  }
 
   // удаление карточки
   deleteCardForServer(cardId){
@@ -101,6 +138,7 @@ class Api {
       return this._checkResponse(res);
     })
   } 
+
 
 
 }

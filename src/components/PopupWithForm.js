@@ -1,5 +1,7 @@
 
-function PopupWithForm ({isOpen, onClose, name, title, button, children, onSubmit}){
+function PopupWithForm (props){
+
+  const{isOpen, onClose, name, title, button, children, onSubmit} = props;
 
   return (
 

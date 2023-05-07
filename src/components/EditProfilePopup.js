@@ -6,6 +6,8 @@ import CurrentUserContext from './../contexts/CurrentUserContext';
 
 function EditProfilePopup(props){
 
+  const{onUpdateUser, isOpen, onClose} = props;
+
   const [name, setName] = useState('');
   const [description , setDescription] = useState('');
 
@@ -27,7 +29,7 @@ function EditProfilePopup(props){
     evt.preventDefault();
   
     // Передаём значения управляемых компонентов во внешний обработчик
-    props.onUpdateUser({
+    onUpdateUser({
       name: name,
       about: description
     });
@@ -43,10 +45,10 @@ function EditProfilePopup(props){
 
   return(
     <PopupWithForm 
-      onClose = {props.onClose} 
+      onClose = {onClose} 
       name='profile'  
       title='Редактировать профиль' 
-      isOpen = {props.isOpen} 
+      isOpen = {isOpen} 
       button = 'Сохранить'
       onSubmit={handleSubmit}>
         <input className="popup__input" onChange={handleName} id="popup_name-profile" type="text" value={name} name="popup_name" minLength={2} maxLength={40} required placeholder=""/>
