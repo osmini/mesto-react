@@ -8,7 +8,7 @@ import CurrentUserContext from './../contexts/CurrentUserContext';
 function Card(props){
 
   // деструкторизация 
-  const {id, name, likes, link, owner} = props.card;
+  const {name, likes, link, owner} = props.card;
 
 
 
@@ -46,7 +46,7 @@ function Card(props){
 
   // возвращаем разметку jsx 
   return (
-    <article key={id} className="plases-card" aria-label="места России">
+    <article className="plases-card" aria-label="места России">
       <img className="plases-card__img" onClick={handleClick} src={link} alt={name}/>
       <button  className={cardDellButtonClassName} onClick={handleDeleteClick} type="button" aria-label="кнопка удалить" ></button>
       <div className="plases-card__card-title">

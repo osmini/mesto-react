@@ -6,7 +6,7 @@ import CurrentUserContext from './../contexts/CurrentUserContext';
 
 function EditProfilePopup(props){
 
-  const{onUpdateUser, isOpen, onClose} = props;
+  const{onUpdateUser, isOpen, onClose, isLoading} = props;
 
   const [name, setName] = useState('');
   const [description , setDescription] = useState('');
@@ -40,7 +40,7 @@ function EditProfilePopup(props){
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]); 
+  }, [currentUser, isOpen]); 
 
 
   return(
@@ -49,11 +49,11 @@ function EditProfilePopup(props){
       name='profile'  
       title='Редактировать профиль' 
       isOpen = {isOpen} 
-      button = 'Сохранить'
+      isLoading={isLoading}
       onSubmit={handleSubmit}>
-        <input className="popup__input" onChange={handleName} id="popup_name-profile" type="text" value={name} name="popup_name" minLength={2} maxLength={40} required placeholder=""/>
+        <input className="popup__input" onChange={handleName} id="popup_name-profile" type="text" value={name || ''} name="popup_name" minLength={2} maxLength={40} required placeholder=""/>
         <span className="popup__input-error" id="popup_name-profile-error"></span>
-        <input className="popup__input" onChange={handleDescription} id="popup_work-profile" type="text" value={description} minLength={2} maxLength={200} name="popup_work" required placeholder=""/>
+        <input className="popup__input" onChange={handleDescription} id="popup_work-profile" type="text" value={description || ''} minLength={2} maxLength={200} name="popup_work" required placeholder=""/>
         <span className="popup__input-error" id="popup_work-profile-error"></span>
     </PopupWithForm>
   )

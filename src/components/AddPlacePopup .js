@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 
 function AddPlacePopup (props){
 
-  const{onAddPlace, isOpen, onClose} = props;
+  const{onAddPlace, isOpen, onClose, isLoading} = props;
 
   const [name, setName] = useState(''); // название карточки
   const [link, setLink] = useState(''); // ссылка карточки
@@ -39,8 +39,8 @@ function AddPlacePopup (props){
       name='mesto' 
       title='Новое место' 
       isOpen = {isOpen}
-      button = 'Сохранить'
       onSubmit={handleSubmit}
+      isLoading={isLoading}
     >
       <input className="popup__input" id="popup__name-place" type="text" name="popup_name" value={name} onChange={nameChange} minLength={2} maxLength={30} required placeholder="Название"/>
       <span className="popup__input-error" id="popup__name-place-error"></span>

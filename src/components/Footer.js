@@ -5,7 +5,7 @@ function Footer(){
   // возвращаем jsx разметку компонента
   return (
     <footer className="footer">
-      <p className="footer__copyraite">&#169; 2023 Mesto Russio</p>
+      <p className="footer__copyraite">&#169; {(new Date().getFullYear())} Mesto Russio</p>
     </footer>
   );
 }

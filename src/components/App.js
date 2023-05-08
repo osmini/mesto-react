@@ -18,9 +18,11 @@ function App() {
   const [isEditProfilePopupOpen, setleEditProfileClick] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarClick] = useState(false);
   const [isAddPlacePopupOpen, setAddPlaceClick] = useState(false);
-  const [selectedCard, setSelectedCard] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [cards, setCards] = useState([]); //карточки места
   const [currentUser , setCurrentUser ] = useState({}); // текущий пользователя
+  const [isLoading, setIsLoading] = useState(false); // состояние кнопки при загрузки данных на сервер
+
 
   function handleEditProfileClick(){
     setleEditProfileClick(true);
@@ -38,13 +40,31 @@ function App() {
     setSelectedCard(selectedCard);
   }
 
-  // закрытие попапов
+  // закрытие попапов на крестик
   function closeAllPopups(){
     setleEditProfileClick(false);
     setEditAvatarClick(false);
     setAddPlaceClick(false);
-    setSelectedCard([]);
+    setSelectedCard({name: '', link: ''})
   }
+
+  //  обработчик закрытие попап на Escape
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard.link
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if(evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    if(isOpen) { // навешиваем только при открытии
+      document.addEventListener('keydown', closeByEscape);
+      return () => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
+    }
+  }, [isOpen]) 
+
 
   // запрос пользователя с сервера
   useEffect(()=>{
@@ -96,6 +116,7 @@ function App() {
   // добавить карточку
   function handleAddPlaceSubmit(card) {
 
+    setIsLoading(true);
     Api.postCardsForServer(card)
     .then((newCard) => {
       setCards([newCard, ...cards]); 
@@ -103,6 +124,9 @@ function App() {
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      setIsLoading(false);
     });  
   }
 
@@ -120,25 +144,33 @@ function App() {
 
   // обновить данные о пользователе
   function handleUpdateUser(date) {
-
+    setIsLoading(true);
     Api.patchInfoUserForServer(date)
     .then((user) => {
       setCurrentUser(user);
       closeAllPopups();
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      setIsLoading(false);
     });
   }
 
   // изменить аватар
   function handleUpdateAvatar(date){
-
+    setIsLoading(true);
     Api.patchAvatarForServer(date)
     .then((avatar) => {
       setCurrentUser(avatar);
       closeAllPopups();
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      setIsLoading(false);
     });
   }
   
@@ -149,18 +181,18 @@ function App() {
       <Header />
       
       <Main 
-        onEditProfile = {() => handleEditProfileClick()}
-        onEditAvatar = {() => handleEditAvatarClick()} 
-        onAddPlace = {() => handleAddPlaceClick()}  
+        onEditProfile = {handleEditProfileClick}
+        onEditAvatar = {handleEditAvatarClick} 
+        onAddPlace = {handleAddPlaceClick}  
         onCardClick = {handleCardClick}
         onCardLike = {handleCardLike}
         onCardDelete = {handleCardDelete}
         cards = {cards}
       />
 
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-      <AddPlacePopup  isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isLoading={isLoading}/>
+      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading}/>
+      <AddPlacePopup  isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={isLoading}/>
       <ImagePopup card = {selectedCard} onClose = {() => closeAllPopups()}/> 
       
       <Footer />  

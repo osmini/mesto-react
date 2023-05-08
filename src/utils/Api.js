@@ -2,10 +2,9 @@
 // класс для работы с api яндекс практикума
 class Api {
 
-  constructor(token, identifikator, zapros){
-    this._token = token
-    this._identifikator = identifikator
-    this._zapros = zapros
+  constructor({ headers, baseUrl }){
+    this._headers = headers;
+    this._baseUrl = baseUrl
   }
 
   _checkResponse(res){
@@ -18,10 +17,8 @@ class Api {
   // получить данные о профиле с сервера
   getInfoUserForServer(){
 
-    return fetch(`${this._zapros}/${this._identifikator}/users/me`, {
-    headers: {
-      authorization: this._token 
-    }
+    return fetch(this._baseUrl + '/users/me', {
+    headers: this._headers,
   })
   .then(res => {
     return this._checkResponse(res);
@@ -31,12 +28,9 @@ class Api {
   // изменить данные о профиле с сервера и загрузить на страницу сайта
   patchInfoUserForServer(date){
 
-    return fetch(`${this._zapros}/${this._identifikator}/users/me`, {
+    return fetch(this._baseUrl + '/users/me' , {
       method: 'PATCH',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: date.name,
         about: date.about
@@ -50,12 +44,9 @@ class Api {
   // изменить аватар
   patchAvatarForServer(avatar){
 
-    return fetch(`${this._zapros}/${this._identifikator}/users/me/avatar`, {
+    return fetch(this._baseUrl + '/users/me/avatar', {
       method: 'PATCH',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar: avatar.avatar
       })
@@ -68,10 +59,8 @@ class Api {
   // получить карточки с сервера
   getCardsForServer(){
     
-    return fetch(`${this._zapros}/${this._identifikator}/cards`, {
-        headers: {
-          authorization: this._token 
-        }
+    return fetch(this._baseUrl + '/cards', {
+      headers: this._headers,
       })
       .then(res => {
         return this._checkResponse(res);
@@ -81,12 +70,9 @@ class Api {
   // добавить новую карточку на сервер
   postCardsForServer(newCardDate){
   
-    return fetch(`${this._zapros}/${this._identifikator}/cards`, {
+    return fetch(this._baseUrl + '/cards', {
       method: 'POST',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: newCardDate.name,
         link: newCardDate.link
@@ -100,11 +86,9 @@ class Api {
   // удаление карточки
   deleteCardForServer(cardId){
     
-    return fetch(`${this._zapros}/${this._identifikator}/cards/${cardId}`, {
+    return fetch(this._baseUrl + `/cards/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._token
-      }
+      headers: this._headers,
     })
     .then(res => {
       return this._checkResponse(res);
@@ -114,11 +98,9 @@ class Api {
   //поставить лайк
   putLikeForServer(cardId){
     
-    return fetch(`${this._zapros}/${this._identifikator}/cards/${cardId}/likes`, {
+    return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
       method: 'PUT',
-      headers: {
-        authorization: this._token
-      }
+      headers: this._headers,
     })
     .then(res => {
       return this._checkResponse(res);
@@ -128,26 +110,22 @@ class Api {
   //убрать лайк
   deleteLikeForServer(cardId){
   
-    return fetch(`${this._zapros}/${this._identifikator}/cards/${cardId}/likes`, {
+    return fetch(this._baseUrl + `/cards/${cardId}/likes`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._token
-      }
+      headers: this._headers,
     })
     .then(res => {
       return this._checkResponse(res);
     })
   } 
-
-
-
 }
 
-const token = 'c564ddc3-f58f-47cc-aac8-027be5fd7e89';
-const identifikator = 'cohort-63';
-const zapros = 'https://mesto.nomoreparties.co/v1';
-
-const api = new Api(token, identifikator, zapros);
+const api = new Api({ 
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-63',
+  headers: {
+  authorization: 'c564ddc3-f58f-47cc-aac8-027be5fd7e89',
+  'Content-Type': 'application/json'
+}});
 
 
 export default api;

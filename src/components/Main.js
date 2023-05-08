@@ -31,7 +31,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike,
     
       <section className="plases" aria-label="Карточки мест">
         
-        {cards.map((card) =>
+        {cards.map((card) => (
           <Card 
             key = {card._id}
             card={card} 
@@ -39,7 +39,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike,
             onCardLike = {onCardLike}
             onCardDelete = {onCardDelete}
           />
-        )}
+        ))}
         
       </section>
 

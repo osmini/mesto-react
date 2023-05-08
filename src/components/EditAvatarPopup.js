@@ -4,7 +4,7 @@ import {useEffect, useRef} from 'react';
 
 function EditAvatarPopup(props){
 
-  const{onUpdateAvatar, isOpen, onClose} = props;
+  const{onUpdateAvatar, isOpen, onClose, isLoading} = props;
 
   const refAvatar = useRef(); // записываем объект, возвращаемый хуком, в переменную
 
@@ -23,7 +23,7 @@ function EditAvatarPopup(props){
       name ='avatar' 
       title ='Обновить аватар' 
       isOpen = {isOpen} 
-      button = 'Сохранить'
+      isLoading={isLoading}
       onSubmit={handleSubmit}
       >
         <input ref={refAvatar} className="popup__input" id="popup__link-avatar" type="url" name="popup_link" required  placeholder="Ссылка на картинку"/>
